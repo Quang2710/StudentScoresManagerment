@@ -41,7 +41,16 @@ public class MainMenu extends javax.swing.JFrame {
                 search.setVisible(true);
             }
         });
-        report_btn.addActionListener(new ActionListener() {
+        logout_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("LogOut");
+                dispose();
+                Login login = new Login();
+                login.setVisible(true);
+            }
+        });
+          report_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Report");
@@ -68,6 +77,8 @@ public class MainMenu extends javax.swing.JFrame {
         updatedb_btn = new javax.swing.JButton();
         search_btn = new javax.swing.JButton();
         report_btn = new javax.swing.JButton();
+        logout_btn = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,6 +117,15 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        logout_btn.setText("Đăng xuất");
+        logout_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logout_btnActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,10 +135,9 @@ public class MainMenu extends javax.swing.JFrame {
                 .addComponent(updatedb_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(128, 128, 128)
                 .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                 .addComponent(report_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 973, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(110, 110, 110)
                 .addComponent(jLabel2)
@@ -127,12 +146,23 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(266, 266, 266)
                 .addComponent(jLabel4)
                 .addGap(84, 84, 84))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(logout_btn)
+                .addContainerGap())
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(101, 101, 101)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(logout_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(updatedb_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -142,7 +172,7 @@ public class MainMenu extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
-                .addGap(0, 126, Short.MAX_VALUE))
+                .addGap(0, 122, Short.MAX_VALUE))
         );
 
         pack();
@@ -159,6 +189,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void report_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_report_btnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_report_btnActionPerformed
+
+    private void logout_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logout_btnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logout_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,6 +234,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JButton logout_btn;
     private javax.swing.JButton report_btn;
     private javax.swing.JButton search_btn;
     private javax.swing.JButton updatedb_btn;
