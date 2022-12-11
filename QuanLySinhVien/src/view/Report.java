@@ -44,7 +44,7 @@ public class Report extends javax.swing.JFrame {
                 try {
                      conn = connectDB.getDBConnect();
                     String malopmh = txt_danhsahsinhvienlopmh.getText();
-                    command = conn.prepareCall("{call LIST_STUDENT_CLASS_OBJ (?)}");
+                    command = conn.prepareCall("{call DSSV_LOPMH (?)}");
                     command.setString(1,malopmh);                  
                    
                     //stm = conn.createStatement();

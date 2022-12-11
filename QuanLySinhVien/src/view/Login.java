@@ -45,7 +45,7 @@ public class Login extends javax.swing.JFrame {
                 try {
                     String username = txt_user.getText();
                     String password = txt_pass.getText();
-                    String sql = "SELECT * FROM ACCOUNT WHERE UserName='" + username + "' and Password='" + password + "'";
+                    String sql = "SELECT * FROM ACCOUNT WHERE TaiKhoan='" + username + "' and MatKhau='" + password + "'";
                     conn = connectDB.getDBConnect();
                     stm = conn.createStatement();
 

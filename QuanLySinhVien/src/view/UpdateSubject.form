@@ -43,7 +43,7 @@
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;t gi&#x1ea3;ng vi&#xea;n"/>
+        <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;t m&#xf4;n h&#x1ecd;c"/>
       </Properties>
     </Component>
   </SubComponents>

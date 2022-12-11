@@ -19,9 +19,10 @@ public class UpdateDB extends javax.swing.JFrame {
      */
     public UpdateDB() {
         initComponents();
-        init();
+        btnAction();
     }
-      public void init() {
+
+    public void btnAction() {
         back_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -29,6 +30,33 @@ public class UpdateDB extends javax.swing.JFrame {
                 dispose();
                 MainMenu main = new MainMenu();
                 main.setVisible(true);
+            }
+        });
+        btn_sinhvien.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Update Student");
+                dispose();
+                UpdateStudent updatestudent = new UpdateStudent();
+                updatestudent.setVisible(true);
+            }
+        });
+        btn_giangvien.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Update Teacher");
+                dispose();
+                UpdateTeacher updateteacher = new UpdateTeacher();
+                updateteacher.setVisible(true);
+            }
+        });
+        btn_monhoc.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Update Subject");
+                dispose();
+                UpdateSubject updatesubject = new UpdateSubject();
+                updatesubject.setVisible(true);
             }
         });
     }
