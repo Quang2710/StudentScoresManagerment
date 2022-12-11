@@ -11,12 +11,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import database.ConnectDatabase;
+import java.sql.PreparedStatement;
 
 /**
  *
  * @author quang
  */
 public class Login extends javax.swing.JFrame {
+
+    Connection conn = null;
+    PreparedStatement stm = null;
+    private final ConnectDatabase connectDB = new ConnectDatabase();
 
     /**
      * Creates new form Login
@@ -31,19 +37,19 @@ public class Login extends javax.swing.JFrame {
         btn_login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String dbURL = "jdbc:sqlserver://localhost:1433;database=DOANCSDL";
-                String user = "QuangHao";
-                String pass = "123";
-                Connection conn = null;
+//                String dbURL = "jdbc:sqlserver://localhost:1433;database=DOANCSDL";
+//                String user = "QuangHao";
+//                String pass = "123";
+                ResultSet rs = null;
+                Statement stm = null;
                 try {
-                    conn = DriverManager.getConnection(dbURL, user, pass);
-
                     String username = txt_user.getText();
                     String password = txt_pass.getText();
-                    Statement stm = conn.createStatement();
                     String sql = "SELECT * FROM ACCOUNT WHERE UserName='" + username + "' and Password='" + password + "'";
+                    conn = connectDB.getDBConnect();
+                    stm = conn.createStatement();
 
-                    ResultSet rs = stm.executeQuery(sql);
+                     rs = stm.executeQuery(sql);
                     if (rs.next()) {
                         // if user and password == true go to home page
                         System.out.println("Thanh cong");
@@ -52,7 +58,7 @@ public class Login extends javax.swing.JFrame {
                         main.setVisible(true);
                     } else {
                         // if user and password == false 
-                        System.out.println("FAILD");
+                        System.out.println("FAILD!!");
                         lbStatus.setVisible(true);
                     }
                 } catch (Exception ex) {
@@ -60,7 +66,7 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         });
-           btn_exit.addActionListener(new ActionListener() {
+        btn_exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);

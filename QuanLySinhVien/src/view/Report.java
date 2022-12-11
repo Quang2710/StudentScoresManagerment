@@ -5,14 +5,25 @@
  */
 package view;
 
+import database.ConnectDatabase;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  *
  * @author quang
  */
 public class Report extends javax.swing.JFrame {
+
+    CallableStatement command = null;
+    Connection conn = null;
+    PreparedStatement stm = null;
+    private final ConnectDatabase connectDB = new ConnectDatabase();
 
     /**
      * Creates new form Report
@@ -21,7 +32,40 @@ public class Report extends javax.swing.JFrame {
         initComponents();
         init();
     }
-        public void init() {
+
+    public void init() {
+        ResultSet rs = null;
+        Statement stm = null;
+        btn_thongke.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {//              
+                ResultSet rs = null;
+                Statement stm = null;
+                try {
+                     conn = connectDB.getDBConnect();
+                    String malopmh = txt_danhsahsinhvienlopmh.getText();
+                    command = conn.prepareCall("{call LIST_STUDENT_CLASS_OBJ (?)}");
+                    command.setString(1,malopmh);                  
+                   
+                    //stm = conn.createStatement();
+                    rs = command.executeQuery();
+                    if (rs.next()) {
+                        // if user and password == true go to home page
+                        System.out.println("XUAT BAO CAO THANH CONG");
+//                        dispose();
+//                        MainMenu main = new MainMenu();
+//                        main.setVisible(true);
+                    } else {
+                        // if user and password == false 
+                        System.out.println("REPORT FAILD!");
+                      
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
         back_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,6 +88,12 @@ public class Report extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         back_btn = new javax.swing.JButton();
+        txt_bangdienlopmh = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txt_danhsahsinhvienlopmh = new javax.swing.JTextField();
+        btn_thongke = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,6 +103,33 @@ public class Report extends javax.swing.JFrame {
 
         back_btn.setText("Back");
 
+        txt_bangdienlopmh.setToolTipText("");
+        txt_bangdienlopmh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_bangdienlopmhActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Mã lớp môn học");
+
+        jLabel3.setText("Danh sách sinh viên của lớp môn học");
+
+        jLabel4.setText("Bảng điểm lớp môn học");
+
+        txt_danhsahsinhvienlopmh.setToolTipText("");
+        txt_danhsahsinhvienlopmh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_danhsahsinhvienlopmhActionPerformed(evt);
+            }
+        });
+
+        btn_thongke.setText("Thống kê");
+        btn_thongke.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_thongkeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -61,7 +138,21 @@ public class Report extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(back_btn)
-                .addContainerGap(593, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(136, 136, 136)
+                .addComponent(btn_thongke, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 298, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_danhsahsinhvienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_bangdienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(216, 216, 216))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -69,12 +160,38 @@ public class Report extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(back_btn)
-                .addContainerGap(482, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(back_btn)
+                        .addComponent(jLabel2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btn_thongke, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21)))
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_danhsahsinhvienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_bangdienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addContainerGap(410, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txt_bangdienlopmhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_bangdienlopmhActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_bangdienlopmhActionPerformed
+
+    private void txt_danhsahsinhvienlopmhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_danhsahsinhvienlopmhActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_danhsahsinhvienlopmhActionPerformed
+
+    private void btn_thongkeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_thongkeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_thongkeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -113,6 +230,12 @@ public class Report extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back_btn;
+    private javax.swing.JButton btn_thongke;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField txt_bangdienlopmh;
+    private javax.swing.JTextField txt_danhsahsinhvienlopmh;
     // End of variables declaration//GEN-END:variables
 }
