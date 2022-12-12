@@ -4,14 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/Report.java</file>
-            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/services/StudentServices.java</file>
             <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/UpdateSubject.java</file>
             <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/UpdateStudent.java</file>
-            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/database/ConnectDatabase.java</file>
+            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/UpdateTeacher.java</file>
             <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/model/Teacher.java</file>
-            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/UpdateDB.java</file>
             <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/model/Student.java</file>
-            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/Login.java</file>
         </group>
     </open-files>
 </project-private>

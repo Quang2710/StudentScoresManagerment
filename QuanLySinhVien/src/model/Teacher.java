@@ -12,14 +12,16 @@ import java.util.Objects;
  * @author quang
  */
 public class Teacher {
-
+    
+    private String magv;
     private String hoten;
     private String ngaysinh;
     private String gioitinh;
     private String sdt;
     private String email;
 
-    public Teacher(String hoten, String ngaysinh, String gioitinh, String sdt, String email) {
+    public Teacher(String magv,String hoten, String ngaysinh, String gioitinh, String sdt, String email) {
+        this.magv = magv;
         this.hoten = hoten;
         this.ngaysinh = ngaysinh;
         this.gioitinh = gioitinh;
@@ -27,41 +29,55 @@ public class Teacher {
         this.email = email;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        return hash;
+    public String getMagv() {
+        return magv;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Teacher other = (Teacher) obj;
-        if (!Objects.equals(this.hoten, other.hoten)) {
-            return false;
-        }
-        if (!Objects.equals(this.ngaysinh, other.ngaysinh)) {
-            return false;
-        }
-        if (!Objects.equals(this.gioitinh, other.gioitinh)) {
-            return false;
-        }
-        if (!Objects.equals(this.sdt, other.sdt)) {
-            return false;
-        }
-        if (!Objects.equals(this.email, other.email)) {
-            return false;
-        }
-        return true;
+    public void setMagv(String magv) {
+        this.magv = magv;
     }
+
+    public String getHoten() {
+        return hoten;
+    }
+
+    public void setHoten(String hoten) {
+        this.hoten = hoten;
+    }
+
+    public String getNgaysinh() {
+        return ngaysinh;
+    }
+
+    public void setNgaysinh(String ngaysinh) {
+        this.ngaysinh = ngaysinh;
+    }
+
+    public String getGioitinh() {
+        return gioitinh;
+    }
+
+    public void setGioitinh(String gioitinh) {
+        this.gioitinh = gioitinh;
+    }
+
+    public String getSdt() {
+        return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
 
     public Teacher() {
     }
