@@ -75,6 +75,7 @@ public class UpdateDB extends javax.swing.JFrame {
         btn_sinhvien = new javax.swing.JButton();
         btn_giangvien = new javax.swing.JButton();
         btn_monhoc = new javax.swing.JButton();
+        btn_diem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -105,15 +106,18 @@ public class UpdateDB extends javax.swing.JFrame {
             }
         });
 
+        btn_diem.setText("Điểm");
+        btn_diem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_diemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(back_btn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(58, 58, 58)
                 .addComponent(btn_sinhvien, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -122,6 +126,15 @@ public class UpdateDB extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_monhoc, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(back_btn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(216, 216, 216)
+                        .addComponent(btn_diem, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +148,9 @@ public class UpdateDB extends javax.swing.JFrame {
                     .addComponent(btn_sinhvien, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_giangvien, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_monhoc, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(281, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addComponent(btn_diem, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81))
         );
 
         pack();
@@ -152,6 +167,10 @@ public class UpdateDB extends javax.swing.JFrame {
     private void btn_monhocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_monhocActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_monhocActionPerformed
+
+    private void btn_diemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_diemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_diemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,6 +209,7 @@ public class UpdateDB extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back_btn;
+    private javax.swing.JButton btn_diem;
     private javax.swing.JButton btn_giangvien;
     private javax.swing.JButton btn_monhoc;
     private javax.swing.JButton btn_sinhvien;

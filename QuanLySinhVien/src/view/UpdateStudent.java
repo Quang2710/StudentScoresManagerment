@@ -8,6 +8,8 @@ package view;
 import database.ConnectDatabase;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Vector;
@@ -16,6 +18,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import model.Student;
 
 /**
@@ -87,6 +90,17 @@ public class UpdateStudent extends javax.swing.JFrame {
         }
     }
 
+    public void reset() {
+        txt_masv.setText("");
+        txt_tensv.setText("");
+        txt_ngaysinh.setText("");
+        txt_gioitinh.setText("");
+        txt_diachi.setText("");
+        txt_lopql.setText("");
+        txt_email.setText("");
+        txt_makhoa.setText("");
+    }
+
     private void connection() {
         conn = connectDB.getDBConnect();
     }
@@ -100,7 +114,7 @@ public class UpdateStudent extends javax.swing.JFrame {
     }
 
     public void btnAction() {
-      btn_back.addActionListener(new ActionListener() {
+        btn_back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("BACK");
@@ -109,8 +123,109 @@ public class UpdateStudent extends javax.swing.JFrame {
                 update.setVisible(true);
             }
         });
+
+        btn_add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String sSQL = "insert into SINHVIEN(MaSV,HoTen,NgaySinh,GioiTinh,DiaChi,LopQL,Email,MaKhoa)values(?,?,?,?,?,?,?,?)";
+                try {
+                    conn = connectDB.getDBConnect();
+                    pst = conn.prepareStatement(sSQL);
+                    pst.setString(1, txt_masv.getText());
+                    pst.setString(2, txt_tensv.getText());
+                    pst.setString(3, txt_ngaysinh.getText());
+                    pst.setString(4, txt_gioitinh.getText());
+                    pst.setString(5, txt_diachi.getText());
+                    pst.setString(6, txt_lopql.getText());
+                    pst.setString(7, txt_email.getText());
+                    pst.setString(8, txt_makhoa.getText());
+                    pst.executeUpdate();
+                    reset();
+                    dispose();
+                    UpdateStudent update = new UpdateStudent();
+                    update.setVisible(true);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        btn_update.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String sSQL = "update SINHVIEN set HoTen = ?,NgaySinh = ?,GioiTinh = ?,DiaChi = ?,LopQL = ?,Email = ?,MaKhoa =? where MaSV = '" + txt_masv.getText() + "'";
+                try {
+                    conn = connectDB.getDBConnect();
+                    pst = conn.prepareStatement(sSQL);
+                    pst.setString(1, txt_tensv.getText());
+                    pst.setString(2, txt_ngaysinh.getText());
+                    pst.setString(3, txt_gioitinh.getText());
+                    pst.setString(4, txt_diachi.getText());
+                    pst.setString(5, txt_lopql.getText());
+                    pst.setString(6, txt_email.getText());
+                    pst.setString(7, txt_makhoa.getText());
+                    pst.executeUpdate();
+                    reset();
+                    dispose();
+                    UpdateStudent update = new UpdateStudent();
+                    update.setVisible(true);
+                    System.out.println("Update success");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        btn_delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                conn = connectDB.getDBConnect();
+                int Click = tableStudent.getSelectedRow();
+                TableModel model = tableStudent.getModel();
+                int a = JOptionPane.showConfirmDialog(null, "Xác nhận xóa ?");
+                if (a == JOptionPane.YES_OPTION) {
+                    String sqlDelete = "delete SINHVIEN where MaSV = '" + txt_masv.getText() + "' ";
+
+                    try {
+                        // pst.setString(1, txt_masv.getText());
+                        System.out.println("Delete success");
+                        pst = conn.prepareStatement(sqlDelete);
+                        pst.executeUpdate();
+                        reset();
+                        dispose();
+                        UpdateStudent update = new UpdateStudent();
+                        update.setVisible(true);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else if (a == JOptionPane.NO_OPTION) {
+                    show_student();;
+                }
+
+            }
+        });
+        tableStudent.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+
+                int Click = tableStudent.getSelectedRow();
+                TableModel model = tableStudent.getModel();
+
+                // txt_stt.setText(model.getValueAt(Click, 0).toString());
+                txt_masv.setText(model.getValueAt(Click, 0).toString());
+                txt_tensv.setText(model.getValueAt(Click, 1).toString());
+                txt_ngaysinh.setText(model.getValueAt(Click, 2).toString());
+                txt_gioitinh.setText(model.getValueAt(Click, 3).toString());
+                txt_diachi.setText(model.getValueAt(Click, 4).toString());
+                txt_lopql.setText(model.getValueAt(Click, 5).toString());
+                txt_email.setText(model.getValueAt(Click, 6).toString());
+                txt_makhoa.setText(model.getValueAt(Click, 7).toString());
+
+                btn_update.setEnabled(true);
+                btn_delete.setEnabled(true);
+
+            }
+        });
     }
-                
+
 //    private void loadData(String sql) {
 //        tableStudent.removeAll();
 //        try {
@@ -135,7 +250,6 @@ public class UpdateStudent extends javax.swing.JFrame {
 //            ex.printStackTrace();
 //        }
 //    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -162,10 +276,10 @@ public class UpdateStudent extends javax.swing.JFrame {
         txt_makhoa = new java.awt.TextField();
         txt_diachi = new java.awt.TextField();
         jLabel9 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btn_update = new javax.swing.JButton();
+        btn_save = new javax.swing.JButton();
+        btn_add = new javax.swing.JButton();
+        btn_delete = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableStudent = new javax.swing.JTable();
         btn_back = new javax.swing.JButton();
@@ -200,16 +314,16 @@ public class UpdateStudent extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Địa chỉ");
 
-        jButton1.setText("Sửa");
+        btn_update.setText("Sửa");
 
-        jButton2.setText("Lưu");
+        btn_save.setText("Lưu");
 
-        jButton3.setText("Thêm");
+        btn_add.setText("Thêm");
 
-        jButton4.setText("Xóa");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btn_delete.setText("Xóa");
+        btn_delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btn_deleteActionPerformed(evt);
             }
         });
 
@@ -241,10 +355,10 @@ public class UpdateStudent extends javax.swing.JFrame {
                         .addGap(56, 56, 56)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2))
@@ -263,7 +377,7 @@ public class UpdateStudent extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txt_ngaysinh, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txt_gioitinh, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -322,18 +436,18 @@ public class UpdateStudent extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(107, 107, 107)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
@@ -341,9 +455,9 @@ public class UpdateStudent extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btn_deleteActionPerformed
 
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
         // TODO add your handling code here:
@@ -385,11 +499,11 @@ public class UpdateStudent extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_add;
     private javax.swing.JButton btn_back;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btn_delete;
+    private javax.swing.JButton btn_save;
+    private javax.swing.JButton btn_update;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
