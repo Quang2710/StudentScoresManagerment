@@ -8,12 +8,16 @@ package view;
 import database.ConnectDatabase;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import model.Teacher;
 
 /**
@@ -37,9 +41,20 @@ public class UpdateTeacher extends javax.swing.JFrame {
         show_teacher();
         btnAction();
     }
-  private void connection() {
+
+    public void reset() {
+        txt_magv.setText("");
+        txt_tengv.setText("");
+        txt_ngaysinh.setText("");
+        txt_gioitinh.setText("");
+        txt_sdt.setText("");
+        txt_email.setText("");
+    }
+
+    private void connection() {
         conn = connectDB.getDBConnect();
     }
+
     public ArrayList<Teacher> teacherList() {
         ArrayList<Teacher> teacherList = new ArrayList<>();
         ResultSet rs = null;
@@ -93,6 +108,99 @@ public class UpdateTeacher extends javax.swing.JFrame {
                 update.setVisible(true);
             }
         });
+        btn_add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String sSQL = "insert into GIANGVIEN(MaGV,HoTen,NgaySinh,GioiTinh,SDT,Email)values(?,?,?,?,?,?)";
+                try {
+                    conn = connectDB.getDBConnect();
+                    pst = conn.prepareStatement(sSQL);
+                    pst.setString(1, txt_magv.getText());
+                    pst.setString(2, txt_tengv.getText());
+                    pst.setString(3, txt_ngaysinh.getText());
+                    pst.setString(4, txt_gioitinh.getText());
+                    pst.setString(5, txt_sdt.getText());
+                    pst.setString(6, txt_email.getText());
+                    pst.executeUpdate();
+                    reset();
+                    dispose();
+                    UpdateTeacher update = new UpdateTeacher();
+                    update.setVisible(true);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        btn_update.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String sSQL = "update GIANGVIEN set HoTen = ?,NgaySinh = ?,GioiTinh = ?,SDT = ?,Email = ? where MaGV = '" + txt_magv.getText() + "'";
+                try {
+                    conn = connectDB.getDBConnect();
+                    pst = conn.prepareStatement(sSQL);
+                    pst.setString(1, txt_tengv.getText());
+                    pst.setString(2, txt_ngaysinh.getText());
+                    pst.setString(3, txt_gioitinh.getText());
+                    pst.setString(4, txt_sdt.getText());
+                    pst.setString(5, txt_email.getText());
+                    pst.executeUpdate();
+                    reset();
+                    dispose();
+                    UpdateTeacher update = new UpdateTeacher();
+                    update.setVisible(true);
+                    System.out.println("Update success");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        btn_delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                conn = connectDB.getDBConnect();
+                int Click = tableTeacher.getSelectedRow();
+                TableModel model = tableTeacher.getModel();
+                int a = JOptionPane.showConfirmDialog(null, "Xác nhận xóa ?");
+                if (a == JOptionPane.YES_OPTION) {
+                    String sqlDelete = "delete GIANGVIEN where MaGV = '" + txt_magv.getText() + "' ";
+
+                    try {
+                        System.out.println("Delete success");
+                        pst = conn.prepareStatement(sqlDelete);
+                        pst.executeUpdate();
+                        reset();
+                        dispose();
+                        UpdateTeacher update = new UpdateTeacher();
+                        update.setVisible(true);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else if (a == JOptionPane.NO_OPTION) {
+                  show_teacher();
+                }
+
+            }
+        });
+        tableTeacher.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+
+                int Click = tableTeacher.getSelectedRow();
+                TableModel model = tableTeacher.getModel();
+
+                // txt_stt.setText(model.getValueAt(Click, 0).toString());
+                txt_magv.setText(model.getValueAt(Click, 0).toString());
+                txt_tengv.setText(model.getValueAt(Click, 1).toString());
+                txt_ngaysinh.setText(model.getValueAt(Click, 2).toString());
+                txt_gioitinh.setText(model.getValueAt(Click, 3).toString());
+                txt_sdt.setText(model.getValueAt(Click, 4).toString());
+                txt_email.setText(model.getValueAt(Click, 5).toString());           
+
+                btn_update.setEnabled(true);
+                btn_delete.setEnabled(true);
+
+            }
+        });
     }
 
     /**
@@ -120,10 +228,10 @@ public class UpdateTeacher extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txt_sdt = new java.awt.TextField();
-        jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_add = new javax.swing.JButton();
+        btn_update = new javax.swing.JButton();
+        btn_delete = new javax.swing.JButton();
+        btn_save = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,18 +275,18 @@ public class UpdateTeacher extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Mã giảng viên");
 
-        jButton3.setText("Thêm");
+        btn_add.setText("Thêm");
 
-        jButton1.setText("Sửa");
+        btn_update.setText("Sửa");
 
-        jButton4.setText("Xóa");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btn_delete.setText("Xóa");
+        btn_delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btn_deleteActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Lưu");
+        btn_save.setText("Lưu");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -188,10 +296,10 @@ public class UpdateTeacher extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(87, 87, 87)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                    .addComponent(btn_delete, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                    .addComponent(btn_add, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                    .addComponent(btn_save, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                    .addComponent(btn_update, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                     .addComponent(btn_back, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(73, 73, 73)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,13 +367,13 @@ public class UpdateTeacher extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(145, 145, 145))
@@ -281,9 +389,9 @@ public class UpdateTeacher extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_gioitinhActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btn_deleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -321,11 +429,11 @@ public class UpdateTeacher extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_add;
     private javax.swing.JButton btn_back;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btn_delete;
+    private javax.swing.JButton btn_save;
+    private javax.swing.JButton btn_update;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
