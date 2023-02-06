@@ -39,7 +39,7 @@ public class UpdateStudent extends javax.swing.JFrame {
      */
     public UpdateStudent() {
         initComponents();
-        //loadData(sql);
+        //loadData(sql);    
         show_student();
         btnAction();
     }
@@ -66,7 +66,7 @@ public class UpdateStudent extends javax.swing.JFrame {
                         rs.getString("makhoa")
                 );
                 studentList.add(std);
-            }
+            }   
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -131,10 +131,11 @@ public class UpdateStudent extends javax.swing.JFrame {
                     conn = connectDB.getDBConnect();
                     pst = conn.prepareStatement(sSQL);                          
                     pst.executeQuery();
-                    reset();           
+                   reset();           
                     System.out.println("Thanh cong");
 //                    UpdateStudent update = new UpdateStudent();
 //                    update.setVisible(true);
+                    studentList();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
