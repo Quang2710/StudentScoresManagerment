@@ -3,13 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/ViewReportClassSubject.java</file>
             <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/Report.java</file>
+            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/model/ClassSubject.java</file>
+            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/services/StudentServices.java</file>
             <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/Search.java</file>
+            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/model/Subject.java</file>
             <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/UpdateStudent.java</file>
             <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/UpdateTeacher.java</file>
-            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/MainMenu.java</file>
             <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/UpdateDB.java</file>
-            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/Login.java</file>
+            <file>file:/C:/Users/quang/Desktop/DoAnCSDL/QuanLySinhVien/src/view/ViewReportClassSubjectScores.java</file>
         </group>
     </open-files>
 </project-private>

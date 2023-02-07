@@ -13,6 +13,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
+import view.ViewReportClassSubject;
 
 /**
  *
@@ -21,16 +23,38 @@ import java.sql.Statement;
 public class Report extends javax.swing.JFrame {
 
     CallableStatement command = null;
-    Connection conn = null;
-    PreparedStatement stm = null;
+     private Connection conn = null;
+    private PreparedStatement stm = null;
+    private ResultSet rs = null;
     private final ConnectDatabase connectDB = new ConnectDatabase();
+    private String sql = "SELECT MaLopMH FROM LOPMH";
+    private ViewReportClassSubject ViewReportClassSubject;
 
     /**
      * Creates new form Report
      */
     public Report() {
         initComponents();
+        innitComboBox();
         init();
+    }
+
+    private void innitComboBox() {       
+        try {
+            conn = connectDB.getDBConnect();
+            stm = conn.prepareStatement(sql);
+            rs = stm.executeQuery();
+            cbx_maLopMh1.removeAllItems();
+            while (rs.next()) {
+                cbx_maLopMh1.addItem(rs.getString("MaLopMH"));
+            }
+            rs.close();
+            stm.close();
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void init() {
@@ -42,11 +66,11 @@ public class Report extends javax.swing.JFrame {
                 ResultSet rs = null;
                 Statement stm = null;
                 try {
-                     conn = connectDB.getDBConnect();
+                    conn = connectDB.getDBConnect();
                     String malopmh = txt_danhsahsinhvienlopmh.getText();
                     command = conn.prepareCall("{call DSSV_LOPMH (?)}");
-                    command.setString(1,malopmh);                  
-                   
+                    command.setString(1, malopmh);
+
                     //stm = conn.createStatement();
                     rs = command.executeQuery();
                     if (rs.next()) {
@@ -58,7 +82,6 @@ public class Report extends javax.swing.JFrame {
                     } else {
                         // if user and password == false 
                         System.out.println("REPORT FAILD!");
-                      
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -94,6 +117,10 @@ public class Report extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txt_danhsahsinhvienlopmh = new javax.swing.JTextField();
         btn_thongke = new javax.swing.JButton();
+        cbx_maLopMh1 = new javax.swing.JComboBox<>();
+        btn_report_class_subject = new javax.swing.JButton();
+        cbx_maLopMh2 = new javax.swing.JComboBox<>();
+        btn_report_scores_class_subject = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,6 +157,29 @@ public class Report extends javax.swing.JFrame {
             }
         });
 
+        cbx_maLopMh1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbx_maLopMh1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbx_maLopMh1ActionPerformed(evt);
+            }
+        });
+
+        btn_report_class_subject.setText("Thống kê");
+        btn_report_class_subject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_report_class_subjectActionPerformed(evt);
+            }
+        });
+
+        cbx_maLopMh2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btn_report_scores_class_subject.setText("Thống kê");
+        btn_report_scores_class_subject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_report_scores_class_subjectActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,11 +198,21 @@ public class Report extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 298, Short.MAX_VALUE)
+                .addGap(192, 192, 192)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txt_danhsahsinhvienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbx_maLopMh1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txt_bangdienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbx_maLopMh2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_danhsahsinhvienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_bangdienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(216, 216, 216))
+                    .addComponent(btn_report_class_subject)
+                    .addComponent(btn_report_scores_class_subject))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,12 +230,16 @@ public class Report extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_danhsahsinhvienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_danhsahsinhvienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbx_maLopMh1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_report_class_subject))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_bangdienlopmh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addContainerGap(410, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addComponent(cbx_maLopMh2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_report_scores_class_subject))
+                .addContainerGap(407, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,6 +256,22 @@ public class Report extends javax.swing.JFrame {
     private void btn_thongkeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_thongkeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_thongkeActionPerformed
+
+    private void cbx_maLopMh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_maLopMh1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbx_maLopMh1ActionPerformed
+
+    private void btn_report_class_subjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_report_class_subjectActionPerformed
+        String maLopMH = cbx_maLopMh1.getSelectedItem().toString();        
+        ViewReportClassSubject form = new ViewReportClassSubject(maLopMH);
+        form.setVisible(true);
+    }//GEN-LAST:event_btn_report_class_subjectActionPerformed
+
+    private void btn_report_scores_class_subjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_report_scores_class_subjectActionPerformed
+          String maLopMH = cbx_maLopMh1.getSelectedItem().toString();        
+        ViewReportClassSubjectScores form = new ViewReportClassSubjectScores();
+        form.setVisible(true);
+    }//GEN-LAST:event_btn_report_scores_class_subjectActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,7 +310,11 @@ public class Report extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back_btn;
+    private javax.swing.JButton btn_report_class_subject;
+    private javax.swing.JButton btn_report_scores_class_subject;
     private javax.swing.JButton btn_thongke;
+    private javax.swing.JComboBox<String> cbx_maLopMh1;
+    private javax.swing.JComboBox<String> cbx_maLopMh2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
