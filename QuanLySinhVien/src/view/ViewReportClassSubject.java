@@ -37,115 +37,53 @@ public class ViewReportClassSubject extends javax.swing.JFrame {
      */
     public ViewReportClassSubject(String maLopMH) {
         initComponents();
-        show_classSubject("");
+        show_classSubject(maLopMH);
     }
 
-//    public ArrayList<ClassSubject> classSubjectList(String maLopMH) {
-//        ArrayList<ClassSubject> classSubjectList = new ArrayList<>();
-//        ResultSet rs = null;
-//        Statement stm = null;
-//        try {
-////            conn = connectDB.getDBConnect();
-////            stm = conn.createStatement();
-////            rs = stm.executeQuery(sql);
-//            conn = connectDB.getDBConnect();
-//           // String malopmh = cbx_maMH.getText();
-//            command = conn.prepareCall("{call DSSV_LOPMH (?)}");
-//            command.setString(1, maLopMH);
-//
-//            //stm = conn.createStatement();
-//            rs = command.executeQuery();
-//            ClassSubject std;
-//            while (rs.next()) {
-//                std = new ClassSubject(
-//                        rs.getString("maSV"),
-//                        rs.getString("hoten"),
-//                        rs.getString("lopQL")
-//                );
-//                classSubjectList.add(std);
-//            }
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//        return classSubjectList;
-//    }
-//
-//    public void show_classSubject() {
-//        ArrayList<ClassSubject> list = classSubjectList(String maLopMH);
-//        DefaultTableModel model = (DefaultTableModel) tableClassSubject.getModel();
-//        Object[] row = new Object[8];
-//        for (int i = 0; i < list.size(); i++) {
-//            row[0] = list.get(i).getMaSV();
-//            row[1] = list.get(i).getHoten();
-//            row[2] = list.get(i).getLopQL();
-//            model.addRow(row);
-//        }
-//    }
-
-        
     public ArrayList<ClassSubject> classSubjectList(String maLopMH) {
-    ArrayList<ClassSubject> classSubjectList = new ArrayList<>();
-    ResultSet rs = null;
-    CallableStatement command = null;
-    try {
-        conn = connectDB.getDBConnect();
-        command = conn.prepareCall("{call DSSV_LOPMH (?)}");
-        command.setString(1, maLopMH);
-        rs = command.executeQuery();
-        ClassSubject std;
-        while (rs.next()) {
-            std = new ClassSubject(
-                    rs.getString("maSV"),
-                    rs.getString("hoten"),
-                    rs.getString("lopQL")
-            );
-            classSubjectList.add(std);
-        }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-    } finally {
-        try {
-            rs.close();
-            command.close();
-            conn.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-    return classSubjectList;
-}
-
-public void show_classSubject(String maLopMH) {
-   // ComboBoxGetClassSubject chuaCbx = new ComboBoxGetClassSubject();
-    //String maLopMH = chuaCbx.getMaMH();
-    ArrayList<ClassSubject> list = classSubjectList(maLopMH);
-    DefaultTableModel model = (DefaultTableModel) tableClassSubject.getModel();
-    Object[] row = new Object[3];
-    for (int i = 0; i < list.size(); i++) {
-        row[0] = list.get(i).getMaSV();
-        row[1] = list.get(i).getHoten();
-        row[2] = list.get(i).getLopQL();
-        model.addRow(row);
-    }
-}
-
-
-    private void loadClassSubject() {
+        ArrayList<ClassSubject> classSubjectList = new ArrayList<>();
+        ResultSet rs = null;
+        CallableStatement command = null;
         try {
             conn = connectDB.getDBConnect();
-            stm = conn.prepareStatement(sql);
-            rs = stm.executeQuery();
-            if (rs.next());
-            {
-
+            command = conn.prepareCall("{call DSSV_LOPMH (?)}");
+            command.setString(1, maLopMH);
+            rs = command.executeQuery();
+            ClassSubject std;
+            while (rs.next()) {
+                std = new ClassSubject(
+                        rs.getString("maSV"),
+                        rs.getString("hoten"),
+                        rs.getString("lopQL")
+                );
+                classSubjectList.add(std);
             }
-        } catch (Exception e) {
-            JOptionPane.showConfirmDialog(this, e.getMessage());
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                command.close();
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
+        return classSubjectList;
     }
 
-    /**
+    public void show_classSubject(String maLopMH) {
+        ArrayList<ClassSubject> list = classSubjectList(maLopMH);
+        DefaultTableModel model = (DefaultTableModel) tableClassSubject.getModel();
+        Object[] row = new Object[3];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getMaSV();
+            row[1] = list.get(i).getHoten();
+            row[2] = list.get(i).getLopQL();
+            model.addRow(row);
+        }
+    }
+   /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
@@ -207,37 +145,6 @@ public void show_classSubject(String maLopMH) {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewReportClassSubject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewReportClassSubject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewReportClassSubject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewReportClassSubject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-              //  new ViewReportClassSubject().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

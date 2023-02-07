@@ -269,7 +269,7 @@ public class Report extends javax.swing.JFrame {
 
     private void btn_report_scores_class_subjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_report_scores_class_subjectActionPerformed
           String maLopMH = cbx_maLopMh1.getSelectedItem().toString();        
-        ViewReportClassSubjectScores form = new ViewReportClassSubjectScores();
+        ViewReportClassSubjectScores form = new ViewReportClassSubjectScores(maLopMH);
         form.setVisible(true);
     }//GEN-LAST:event_btn_report_scores_class_subjectActionPerformed
 

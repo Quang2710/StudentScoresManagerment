@@ -5,17 +5,80 @@
  */
 package view;
 
+import database.ConnectDatabase;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import model.ClassSubject;
+import model.ClassSubjectScores;
+
 /**
  *
  * @author quang
  */
 public class ViewReportClassSubjectScores extends javax.swing.JFrame {
 
+    CallableStatement command = null;
+    private Connection conn = null;
+    private PreparedStatement stm = null;
+    private ResultSet rs = null;
+    private final ConnectDatabase connectDB = new ConnectDatabase();
+    private String sql = "SELECT * FROM LOPMH where MaLopMH = ?";
+
     /**
      * Creates new form ViewReportClassSubjectScores
      */
-    public ViewReportClassSubjectScores() {
+    public ViewReportClassSubjectScores(String maLopMH) {
         initComponents();
+        show_classSubjectScore(maLopMH);
+    }
+
+    public ArrayList<ClassSubjectScores> classSubjectScoreList(String maLopMH) {
+        ArrayList<ClassSubjectScores> classSubjectScoreList = new ArrayList<>();
+        ResultSet rs = null;
+        CallableStatement command = null;
+        try {
+            conn = connectDB.getDBConnect();
+            command = conn.prepareCall("{call BANG_DIEM_LOPMH (?)}");
+            command.setString(1, maLopMH);
+            rs = command.executeQuery();
+            ClassSubjectScores std;
+            while (rs.next()) {
+                std = new ClassSubjectScores(
+                        rs.getString("maSV"),
+                        rs.getString("hoten"),
+                        rs.getString("diem")
+                );
+                classSubjectScoreList.add(std);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                command.close();
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return classSubjectScoreList;
+    }
+
+    public void show_classSubjectScore(String maLopMH) {
+        ArrayList<ClassSubjectScores> list = classSubjectScoreList(maLopMH);
+        DefaultTableModel model = (DefaultTableModel) tableClassSubjectScore.getModel();
+        Object[] row = new Object[3];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getMaSV();
+            row[1] = list.get(i).getHoten();
+            row[2] = list.get(i).getDiem();
+            model.addRow(row);
+        }
     }
 
     /**
@@ -28,12 +91,12 @@ public class ViewReportClassSubjectScores extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        tableClassSubject = new javax.swing.JTable();
+        tableClassSubjectScore = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tableClassSubject.setModel(new javax.swing.table.DefaultTableModel(
+        tableClassSubjectScore.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -41,7 +104,7 @@ public class ViewReportClassSubjectScores extends javax.swing.JFrame {
                 "Mã sinh viên", "Tên sinh viên", "Điểm"
             }
         ));
-        jScrollPane2.setViewportView(tableClassSubject);
+        jScrollPane2.setViewportView(tableClassSubjectScore);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -80,41 +143,11 @@ public class ViewReportClassSubjectScores extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewReportClassSubjectScores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewReportClassSubjectScores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewReportClassSubjectScores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewReportClassSubjectScores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ViewReportClassSubjectScores().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tableClassSubject;
+    private javax.swing.JTable tableClassSubjectScore;
     // End of variables declaration//GEN-END:variables
 }
