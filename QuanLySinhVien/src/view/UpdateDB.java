@@ -169,7 +169,10 @@ public class UpdateDB extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_monhocActionPerformed
 
     private void btn_diemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_diemActionPerformed
-        // TODO add your handling code here:
+         System.out.println("BACK");
+        dispose();
+        UpdateScore_Select_Class_Subject form = new UpdateScore_Select_Class_Subject();
+        form.setVisible(true);
     }//GEN-LAST:event_btn_diemActionPerformed
 
     /**
