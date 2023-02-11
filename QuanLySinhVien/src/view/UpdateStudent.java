@@ -34,60 +34,48 @@ public class UpdateStudent extends javax.swing.JFrame {
 
     private String sql = "SELECT * FROM SINHVIEN";
 
-    /**
-     * Creates new form UpdateStudent
-     */
     public UpdateStudent() {
         initComponents();
-        //loadData(sql);    
         show_student();
         btnAction();
     }
 
-    public ArrayList<Student> studentList() {
-        ArrayList<Student> studentList = new ArrayList<>();
+    public void show_student() {
+        Vector cols = new Vector();
+        cols.addElement("Mã sinh viên");
+        cols.addElement("Họ Tên");
+        cols.addElement("Ngày sinh");
+        cols.addElement("Giới tính");
+        cols.addElement("Địa chỉ");
+        cols.addElement("Lớp quản lý");
+        cols.addElement("Email");
+        cols.addElement("Mã khoa");
+        //tao du lieu
+        Vector data = new Vector();
         ResultSet rs = null;
         Statement stm = null;
         try {
-
             conn = connectDB.getDBConnect();
             stm = conn.createStatement();
             rs = stm.executeQuery(sql);
-            Student std;
-            while (rs.next()) {
-                std = new Student(
-                        rs.getString("masv"),
-                        rs.getString("hoten"),
-                        rs.getString("ngaysinh"),
-                        rs.getString("gioitinh"),
-                        rs.getString("diachi"),
-                        rs.getString("lopql"),
-                        rs.getString("email"),
-                        rs.getString("makhoa")
-                );
-                studentList.add(std);
-            }   
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return studentList;
-    }
 
-    public void show_student() {
-        ArrayList<Student> list = studentList();
-        DefaultTableModel model = (DefaultTableModel) tableStudent.getModel();
-        Object[] row = new Object[8];
-        for (int i = 0; i < list.size(); i++) {
-            row[0] = list.get(i).getMasv();
-            row[1] = list.get(i).getHoten();
-            row[2] = list.get(i).getNgaysinh();
-            row[3] = list.get(i).getGioitinh();
-            row[4] = list.get(i).getDiachi();
-            row[5] = list.get(i).getLopql();
-            row[6] = list.get(i).getEmail();
-            row[7] = list.get(i).getMakhoa();
-            model.addRow(row);
+            while (rs.next()) {
+                Vector user = new Vector();
+                user.addElement(rs.getString("MaSV"));
+                user.addElement(rs.getString("HoTen"));
+                user.addElement(rs.getString("NgaySinh"));
+                user.addElement(rs.getInt("GioiTinh"));
+                user.addElement(rs.getString("DiaChi"));
+                user.addElement(rs.getString("LopQL"));
+                user.addElement(rs.getString("Email"));
+                user.addElement(rs.getString("MaKhoa"));
+
+                data.add(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        tableStudent.setModel(new DefaultTableModel(data, cols));
     }
 
     public void reset() {
@@ -126,16 +114,16 @@ public class UpdateStudent extends javax.swing.JFrame {
         btn_search.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                conn = null;
+                Statement pst = null;
+                ResultSet rs = null;
                 String sSQL = "select * from SINHVIEN where MaSV like N'" + txt_search.getText() + "' ;";
                 try {
                     conn = connectDB.getDBConnect();
-                    pst = conn.prepareStatement(sSQL);                          
-                    pst.executeQuery();
-                   reset();           
-                    System.out.println("Thanh cong");
-//                    UpdateStudent update = new UpdateStudent();
-//                    update.setVisible(true);
-                    studentList();
+                    pst = conn.createStatement();
+                    rs = pst.executeQuery(sSQL);
+                    System.out.println("Thanh cong");//                 
+                    show_student();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -158,9 +146,7 @@ public class UpdateStudent extends javax.swing.JFrame {
                     pst.setString(8, txt_makhoa.getText());
                     pst.executeUpdate();
                     reset();
-                    dispose();
-                    UpdateStudent update = new UpdateStudent();
-                    update.setVisible(true);
+                    show_student();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -182,9 +168,7 @@ public class UpdateStudent extends javax.swing.JFrame {
                     pst.setString(7, txt_makhoa.getText());
                     pst.executeUpdate();
                     reset();
-                    dispose();
-                    UpdateStudent update = new UpdateStudent();
-                    update.setVisible(true);
+                    show_student();
                     System.out.println("Update success");
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -207,9 +191,7 @@ public class UpdateStudent extends javax.swing.JFrame {
                         pst = conn.prepareStatement(sqlDelete);
                         pst.executeUpdate();
                         reset();
-                        dispose();
-                        UpdateStudent update = new UpdateStudent();
-                        update.setVisible(true);
+                        show_student();
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -243,35 +225,6 @@ public class UpdateStudent extends javax.swing.JFrame {
         });
     }
 
-//    private void loadData(String sql) {
-//        tableStudent.removeAll();
-//        try {
-//            String[] arr = {"Mã sinh viên", "Tên sinh viên", "Ngày sinh", "Giới tính", "Địa chỉ", "Lớp quản lý", "Email", "Mã khoa"};
-//            DefaultTableModel modle = new DefaultTableModel(arr, 0);
-//            pst = conn.prepareStatement(sql);
-//            rs = pst.executeQuery();
-//            while (rs.next()) {
-//                Vector vector = new Vector();
-//                vector.add(rs.getString("MaSV").trim());
-//                vector.add(rs.getString("HoTen").trim());
-//                vector.add(rs.getString("NgaySinh").trim());
-//                vector.add(rs.getString("GioiTinh").trim());
-//                vector.add(rs.getString("DiaChi"));
-//                vector.add(rs.getString("LopQL").trim());
-//                vector.add(rs.getString("Email").trim());
-//                vector.add(rs.getString("MaKhoa").trim());
-//                modle.addRow(vector);
-//            }
-//            tableStudent.setModel(modle);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -494,34 +447,8 @@ public class UpdateStudent extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_backActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UpdateStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UpdateStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UpdateStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UpdateStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new UpdateStudent().setVisible(true);

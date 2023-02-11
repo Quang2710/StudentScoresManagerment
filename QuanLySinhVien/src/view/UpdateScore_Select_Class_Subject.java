@@ -31,11 +31,12 @@ public class UpdateScore_Select_Class_Subject extends javax.swing.JFrame {
      */
     public UpdateScore_Select_Class_Subject() {
         initComponents();
-        innitComboBox();
+        innitComboBox_MaLopMH();
+        innitComboBox_Ki();
         innitNameSubject();
     }
 
-    private void innitComboBox() {
+    private void innitComboBox_MaLopMH() {
         try {
             conn = connectDB.getDBConnect();
             stm = conn.prepareStatement(sql);
@@ -53,9 +54,28 @@ public class UpdateScore_Select_Class_Subject extends javax.swing.JFrame {
         }
     }
 
+    private void innitComboBox_Ki() {
+        String Sql = "select * from KITHI";
+        try {
+            conn = connectDB.getDBConnect();
+            stm = conn.prepareStatement(Sql);
+            rs = stm.executeQuery();
+            cbx_ki.removeAllItems();
+            while (rs.next()) {
+                cbx_ki.addItem(rs.getString("Ki"));
+            }
+            rs.close();
+            stm.close();
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void innitNameSubject() {
         String maLopMH = cbx_maLopMH.getSelectedItem().toString();
-        String SQL = "  select TenMH  from LOPMH join MONHOC on LOPMH.MaMH = MONHOC.MaMH where MaLopMH = '" + maLopMH + "' ";
+        String SQL = " select TenMH  from LOPMH join MONHOC on LOPMH.MaMH = MONHOC.MaMH where MaLopMH = '" + maLopMH + "' ";
         try {
             conn = connectDB.getDBConnect();
             stm = conn.prepareStatement(SQL);
@@ -69,6 +89,7 @@ public class UpdateScore_Select_Class_Subject extends javax.swing.JFrame {
             conn.close();
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -85,6 +106,10 @@ public class UpdateScore_Select_Class_Subject extends javax.swing.JFrame {
         cbx_maLopMH = new javax.swing.JComboBox<>();
         txt_tenMH = new javax.swing.JTextField();
         btn_ok = new javax.swing.JButton();
+        cbx_ki = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +140,14 @@ public class UpdateScore_Select_Class_Subject extends javax.swing.JFrame {
             }
         });
 
+        cbx_ki.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel1.setText("Mã lớp môn học");
+
+        jLabel2.setText("Tên môn học");
+
+        jLabel3.setText("Kì");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,22 +158,38 @@ public class UpdateScore_Select_Class_Subject extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
+                        .addGap(82, 82, 82)
                         .addComponent(cbx_maLopMH, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66)
+                        .addGap(18, 18, 18)
                         .addComponent(txt_tenMH, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(68, 68, 68)
-                        .addComponent(btn_ok, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(cbx_ki, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72)
+                        .addComponent(btn_ok, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(jLabel1)
+                        .addGap(49, 49, 49)
+                        .addComponent(jLabel2)
+                        .addGap(59, 59, 59)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(105, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
+                .addContainerGap(86, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txt_tenMH, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                    .addComponent(btn_ok, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                    .addComponent(cbx_maLopMH))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txt_tenMH, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                        .addComponent(cbx_maLopMH)
+                        .addComponent(cbx_ki, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_ok, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
                 .addGap(51, 51, 51)
                 .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43))
@@ -166,7 +215,9 @@ public class UpdateScore_Select_Class_Subject extends javax.swing.JFrame {
 
     private void btn_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_okActionPerformed
         dispose();
-        UpdateScores update = new UpdateScores();
+        String maLopMh = cbx_maLopMH.getSelectedItem().toString();
+        String ki = cbx_ki.getSelectedItem().toString();
+        UpdateScores update = new UpdateScores(maLopMh, ki);
         update.setVisible(true);
     }//GEN-LAST:event_btn_okActionPerformed
 
@@ -208,7 +259,11 @@ public class UpdateScore_Select_Class_Subject extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_back;
     private javax.swing.JButton btn_ok;
+    private javax.swing.JComboBox<String> cbx_ki;
     private javax.swing.JComboBox<String> cbx_maLopMH;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField txt_tenMH;
     // End of variables declaration//GEN-END:variables
 }

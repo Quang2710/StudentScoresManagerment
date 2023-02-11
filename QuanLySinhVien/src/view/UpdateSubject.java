@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -53,41 +54,32 @@ public class UpdateSubject extends javax.swing.JFrame {
         conn = connectDB.getDBConnect();
     }
 
-    public ArrayList<Subject> subjectList() {
-        ArrayList<Subject> subjectList = new ArrayList<>();
+    public void show_subject() {
+        Vector cols = new Vector();
+        cols.addElement("Mã môn học");
+        cols.addElement("Tên môn học");
+        cols.addElement("Số tín");
+
+        //tao du lieu
+        Vector data = new Vector();
         ResultSet rs = null;
         Statement stm = null;
         try {
-
             conn = connectDB.getDBConnect();
             stm = conn.createStatement();
             rs = stm.executeQuery(sql);
-            Subject subject;
+
             while (rs.next()) {
-                subject = new Subject(
-                        rs.getString("mamh"),
-                        rs.getString("tenmh"),
-                        rs.getString("sotin")
-                );
-                subjectList.add(subject);
+                Vector user = new Vector();
+                user.addElement(rs.getString("MaMH"));
+                user.addElement(rs.getString("TenMH"));
+                user.addElement(rs.getString("SoTin"));
+                data.add(user);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return subjectList;
-    }
-
-    public void show_subject() {
-        ArrayList<Subject> list = subjectList();
-        DefaultTableModel model = (DefaultTableModel) tableSubject.getModel();
-        Object[] row = new Object[3];
-        for (int i = 0; i < list.size(); i++) {
-            row[0] = list.get(i).getMamh();
-            row[1] = list.get(i).getTenmh();
-            row[2] = list.get(i).getSotin();
-            model.addRow(row);
-
-        }
+        tableSubject.setModel(new DefaultTableModel(data, cols));
     }
 
     public void btnAction() {
@@ -112,9 +104,7 @@ public class UpdateSubject extends javax.swing.JFrame {
                     pst.setString(3, txt_sotin.getText());
                     pst.executeUpdate();
                     reset();
-                    dispose();
-                    UpdateSubject update = new UpdateSubject();
-                    update.setVisible(true);
+                    show_subject();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -131,9 +121,7 @@ public class UpdateSubject extends javax.swing.JFrame {
                     pst.setString(2, txt_sotin.getText());
                     pst.executeUpdate();
                     reset();
-                    dispose();
-                    UpdateSubject update = new UpdateSubject();
-                    update.setVisible(true);
+                    show_subject();
                     System.out.println("Update success");
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -155,10 +143,7 @@ public class UpdateSubject extends javax.swing.JFrame {
                         pst = conn.prepareStatement(sqlDelete);
                         pst.executeUpdate();
                         reset();
-                        dispose();
-                        UpdateSubject update = new UpdateSubject();
-                        update.setVisible(true);
-
+                        show_subject();
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -168,10 +153,10 @@ public class UpdateSubject extends javax.swing.JFrame {
 
             }
         });
-             btn_search.addActionListener(new ActionListener() {
+        btn_search.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
             }
         });
         tableSubject.addMouseListener(new MouseAdapter() {

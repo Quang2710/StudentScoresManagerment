@@ -42,10 +42,10 @@
                           <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="356" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="cbx_maLopMh1" pref="94" max="32767" attributes="0"/>
-                          <Component id="txt_masv" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="332" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="cbx_maLopMh1" min="-2" pref="94" max="-2" attributes="0"/>
+                          <Component id="txt_masv" min="-2" pref="94" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="31" max="32767" attributes="0"/>
                   </Group>
@@ -55,7 +55,12 @@
                   <Component id="btn_report_scores_class_subject" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_report_student_score" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="91" max="32767" attributes="0"/>
+              <EmptySpace pref="47" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -89,17 +94,19 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                       <Component id="cbx_maLopMh1" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_report_student_score" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txt_masv" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="256" max="32767" attributes="0"/>
+              <EmptySpace pref="48" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -182,6 +189,11 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_masv">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel6">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="M&#xe3; sinh vi&#xea;n"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

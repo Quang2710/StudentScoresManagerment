@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -33,9 +34,6 @@ public class UpdateTeacher extends javax.swing.JFrame {
 
     private String sql = "SELECT * FROM GIANGVIEN";
 
-    /**
-     * Creates new form UpdateTeacher
-     */
     public UpdateTeacher() {
         initComponents();
         show_teacher();
@@ -55,47 +53,39 @@ public class UpdateTeacher extends javax.swing.JFrame {
         conn = connectDB.getDBConnect();
     }
 
-    public ArrayList<Teacher> teacherList() {
-        ArrayList<Teacher> teacherList = new ArrayList<>();
+    public void show_teacher() {
+        Vector cols = new Vector();
+        cols.addElement("Mã giảng viên");
+        cols.addElement("Họ Tên");
+        cols.addElement("Ngày sinh");
+        cols.addElement("Giới tính");
+        cols.addElement("Số điện thoại");
+        cols.addElement("Email");
+
+        //tao du lieu
+        Vector data = new Vector();
         ResultSet rs = null;
         Statement stm = null;
         try {
-
             conn = connectDB.getDBConnect();
             stm = conn.createStatement();
             rs = stm.executeQuery(sql);
-            Teacher teacher;
+
             while (rs.next()) {
-                teacher = new Teacher(
-                        rs.getString("magv"),
-                        rs.getString("hoten"),
-                        rs.getString("ngaysinh"),
-                        rs.getString("gioitinh"),
-                        rs.getString("sdt"),
-                        rs.getString("email")
-                );
-                teacherList.add(teacher);
+                Vector user = new Vector();
+                user.addElement(rs.getString("MaGV"));
+                user.addElement(rs.getString("HoTen"));
+                user.addElement(rs.getString("NgaySinh"));
+                user.addElement(rs.getInt("GioiTinh"));
+                user.addElement(rs.getString("SDT"));
+                user.addElement(rs.getString("Email"));
+
+                data.add(user);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return teacherList;
-    }
-
-    public void show_teacher() {
-        ArrayList<Teacher> list = teacherList();
-        DefaultTableModel model = (DefaultTableModel) tableTeacher.getModel();
-        Object[] row = new Object[6];
-        for (int i = 0; i < list.size(); i++) {
-            row[0] = list.get(i).getMagv();
-            row[1] = list.get(i).getHoten();
-            row[2] = list.get(i).getNgaysinh();
-            row[3] = list.get(i).getGioitinh();
-            row[4] = list.get(i).getSdt();
-            row[5] = list.get(i).getEmail();
-            model.addRow(row);
-
-        }
+        tableTeacher.setModel(new DefaultTableModel(data, cols));
     }
 
     public void btnAction() {
@@ -107,10 +97,10 @@ public class UpdateTeacher extends javax.swing.JFrame {
                 try {
                     conn = connectDB.getDBConnect();
                     pst = conn.prepareStatement(sSQL);
-                    pst.executeQuery();
-                    reset();
-                    System.out.println("Thanh cong");
-                    teacherList();
+                    rs = pst.executeQuery();
+                    if (rs.next()) {
+                        show_teacher();
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -140,9 +130,7 @@ public class UpdateTeacher extends javax.swing.JFrame {
                     pst.setString(6, txt_email.getText());
                     pst.executeUpdate();
                     reset();
-                    dispose();
-                    UpdateTeacher update = new UpdateTeacher();
-                    update.setVisible(true);
+                    show_teacher();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -162,9 +150,7 @@ public class UpdateTeacher extends javax.swing.JFrame {
                     pst.setString(5, txt_email.getText());
                     pst.executeUpdate();
                     reset();
-                    dispose();
-                    UpdateTeacher update = new UpdateTeacher();
-                    update.setVisible(true);
+                    show_teacher();
                     System.out.println("Update success");
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -187,10 +173,7 @@ public class UpdateTeacher extends javax.swing.JFrame {
                         pst = conn.prepareStatement(sqlDelete);
                         pst.executeUpdate();
                         reset();
-                        dispose();
-                        UpdateTeacher update = new UpdateTeacher();
-                        update.setVisible(true);
-
+                        show_teacher();
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -207,7 +190,6 @@ public class UpdateTeacher extends javax.swing.JFrame {
                 int Click = tableTeacher.getSelectedRow();
                 TableModel model = tableTeacher.getModel();
 
-                // txt_stt.setText(model.getValueAt(Click, 0).toString());
                 txt_magv.setText(model.getValueAt(Click, 0).toString());
                 txt_tengv.setText(model.getValueAt(Click, 1).toString());
                 txt_ngaysinh.setText(model.getValueAt(Click, 2).toString());
@@ -222,11 +204,6 @@ public class UpdateTeacher extends javax.swing.JFrame {
         });
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

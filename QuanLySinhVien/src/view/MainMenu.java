@@ -32,15 +32,7 @@ public class MainMenu extends javax.swing.JFrame {
                 updatedb.setVisible(true);
             }
         });
-        search_btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Search");
-                dispose();
-                Search search = new Search();
-                search.setVisible(true);
-            }
-        });
+       
         logout_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,10 +64,8 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         updatedb_btn = new javax.swing.JButton();
-        search_btn = new javax.swing.JButton();
         report_btn = new javax.swing.JButton();
         logout_btn = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -89,8 +79,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabel2.setText("Cập nhật dữ liệu");
 
-        jLabel3.setText("Tìm kiếm");
-
         jLabel4.setText("Thống kê, báo cáo");
 
         updatedb_btn.setText("UPDATE");
@@ -98,14 +86,6 @@ public class MainMenu extends javax.swing.JFrame {
         updatedb_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updatedb_btnActionPerformed(evt);
-            }
-        });
-
-        search_btn.setText("SEARCH");
-        search_btn.setToolTipText("");
-        search_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                search_btnActionPerformed(evt);
             }
         });
 
@@ -131,28 +111,27 @@ public class MainMenu extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(updatedb_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(128, 128, 128)
-                .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
-                .addComponent(report_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(266, 266, 266)
-                .addComponent(jLabel4)
-                .addGap(84, 84, 84))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(logout_btn)
                 .addContainerGap())
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(185, 185, 185)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(updatedb_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(jLabel2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(report_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jLabel4)
+                        .addGap(44, 44, 44)))
+                .addGap(187, 187, 187))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,12 +144,10 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(updatedb_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(report_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
                     .addComponent(jLabel4))
                 .addGap(0, 122, Short.MAX_VALUE))
         );
@@ -181,10 +158,6 @@ public class MainMenu extends javax.swing.JFrame {
     private void updatedb_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatedb_btnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_updatedb_btnActionPerformed
-
-    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_search_btnActionPerformed
 
     private void report_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_report_btnActionPerformed
         // TODO add your handling code here:
@@ -232,12 +205,10 @@ public class MainMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JButton logout_btn;
     private javax.swing.JButton report_btn;
-    private javax.swing.JButton search_btn;
     private javax.swing.JButton updatedb_btn;
     // End of variables declaration//GEN-END:variables
 }
